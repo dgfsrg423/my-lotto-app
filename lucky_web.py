@@ -4,13 +4,15 @@ import random
 # 1. 網頁基本設定
 st.set_page_config(page_title="威力彩神算手 💰", page_icon="💵", layout="centered")
 
-# 2. 核心美化與音樂路徑
-# 檔名必須與 GitHub 完全一致：圖片是 gb.jpg，音樂是 music.mp3
+# 2. 檔案路徑設定 (嚴格對齊你截圖中的檔名)
+# 圖片是 gb.jpg，音樂目前是 music.mp3.mp3
 bg_url = "https://raw.githubusercontent.com/dgfsrg423/my-lotto-app/main/gb.jpg"
-music_url = "https://raw.githubusercontent.com/dgfsrg423/my-lotto-app/main/music.mp3"
+music_url = "https://raw.githubusercontent.com/dgfsrg423/my-lotto-app/main/music.mp3.mp3"
 
+# 3. 視覺美化與自動播放腳本
 st.markdown(f"""
     <style>
+    /* 背景圖與毛玻璃效果 */
     .stApp {{
         background: url("{bg_url}");
         background-size: cover;
@@ -18,17 +20,19 @@ st.markdown(f"""
     }}
     
     .main {{
-        background-color: rgba(0, 0, 0, 0.75);
+        background-color: rgba(0, 0, 0, 0.7);
         padding: 40px;
         border-radius: 25px;
         color: white;
-        backdrop-filter: blur(5px);
+        backdrop-filter: blur(8px);
     }}
 
+    /* 側邊欄風格 */
     [data-testid="stSidebar"] {{
         background-color: rgba(0, 0, 0, 0.85);
     }}
 
+    /* 按鈕美化 */
     .stButton>button {{
         width: 100%;
         border-radius: 50px;
@@ -39,22 +43,33 @@ st.markdown(f"""
         border: none;
     }}
     </style>
+
+    <audio id="bgm" loop>
+        <source src="{music_url}" type="audio/mp3">
+    </audio>
+    
+    <script>
+    var playBgm = function() {{
+        var audio = document.getElementById('bgm');
+        audio.play();
+        document.removeEventListener('click', playBgm);
+    }};
+    document.addEventListener('click', playBgm);
+    </script>
 """, unsafe_allow_html=True)
 
-# 3. 側邊欄控制
+# 4. 側邊欄控制
 with st.sidebar:
-    st.header("⚙️ 設定中心")
+    st.header("⚙️ 設定與音樂")
     count = st.slider("想要購買幾注？", 1, 10, 5)
     st.write("---")
-    
-    # 這裡顯示播放器，方便你檢查檔案是否抓取成功
-    st.write("🎵 背景音樂控制")
+    st.write("🎵 **背景音樂控制**")
     st.audio(music_url, format="audio/mp3")
-    st.info("💡 如果播放器顯示載入中或無法播放，可能是檔案太大或網址失效。")
+    st.info("💡 提示：若沒聲音，點擊畫面任何地方或手動按播放。")
 
-# 4. 主畫面內容
+# 5. 主網頁內容
 st.title("💰 威力彩幸運選號器")
-st.write("聽著音樂，祝您好運連連！")
+st.write("檔名已全面對齊，準備迎接頭獎吧！")
 
 if st.button("🚀 啟動幸運召喚！"):
     st.balloons()
@@ -67,3 +82,4 @@ if st.button("🚀 啟動幸運召喚！"):
             col1.info(f"**第一區：** {a1}")
             col2.error(f"**第二區：** [{a2}]")
             st.write("---")
+    st.success("選號完成！")
