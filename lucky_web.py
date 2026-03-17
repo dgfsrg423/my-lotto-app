@@ -70,4 +70,4 @@ if st.button("🚀 啟動幸運召喚！"):
             col2.error(f"**第二區：** [{a2}]")
             st.write("---")
 
-    st.success("選號
+    st.success("選號完成！祝您順利中大獎！")
