@@ -5,26 +5,28 @@ import random
 st.set_page_config(page_title="威力彩神算手 💰", page_icon="💵", layout="centered")
 
 # 2. 核心美化：注入 CSS 魔法
-# 這裡使用了你的 GitHub 原始檔案連結，只要你有上傳 bg.jpg，它就會顯示
+# 這裡同時處理了背景圖與介面的透明質感
 st.markdown("""
     <style>
+    /* 背景圖片設定 */
     .stApp {
         background: url("https://raw.githubusercontent.com/dgfsrg423/my-lotto-app/main/bg.jpg");
         background-size: cover;
         background-attachment: fixed;
     }
     
-    /* 讓內容區塊有半透明黑底，文字才清晰 */
+    /* 主畫面磨砂玻璃效果 */
     .main {
         background-color: rgba(0, 0, 0, 0.7);
         padding: 40px;
         border-radius: 25px;
         color: white;
+        backdrop-filter: blur(5px); /* 增加一點模糊美感 */
     }
 
-    /* 側邊欄也要半透明才好看 */
+    /* 側邊欄深色透明處理 */
     [data-testid="stSidebar"] {
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: rgba(0, 0, 0, 0.85);
     }
 
     /* 美化按鈕 */
@@ -45,22 +47,29 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. 網頁內容
-st.title("💰 威力彩幸運選號器")
-st.write("這不僅僅是程式，這是通往財富自由的門票！")
-
+# 3. 側邊欄設定 (選項 + 音樂播放器)
 with st.sidebar:
-    st.header("⚙️ 選項設定")
+    st.header("⚙️ 設定與音樂")
     count = st.slider("想要購買幾注？", 1, 10, 5)
+    
     st.write("---")
-    st.write("💡 提示：按鈕點下去會噴氣球喔！")
+    st.write("🎵 背景音樂控制")
+    # 音樂路徑指向你的 GitHub 檔案
+    music_url = "https://raw.githubusercontent.com/dgfsrg423/my-lotto-app/main/music.mp3"
+    st.audio(music_url, format="audio/mp3")
+    st.caption("點擊上方播放按鈕開啟氛圍模式")
 
-# 4. 選號邏輯
+# 4. 主網頁內容
+st.title("💰 威力彩幸運選號器")
+st.write("在雨中尋找財富的靈感...")
+
 if st.button("🚀 啟動幸運召喚！"):
     st.balloons()
     
     for i in range(1, count + 1):
+        # 第一區 1~38 取 6 個
         a1 = sorted(random.sample(range(1, 39), 6))
+        # 第二區 1~8 取 1 個
         a2 = random.randint(1, 8)
         
         with st.container():
