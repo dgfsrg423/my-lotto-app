@@ -4,8 +4,8 @@ import random
 # 1. 網頁基本設定
 st.set_page_config(page_title="威力彩神算手 💰", page_icon="💵", layout="centered")
 
-# 2. 核心美化：注入 CSS 魔法
-# 修正：檔名改為你 GitHub 上的 gb.jpg
+# 2. 核心美化與音樂路徑
+# 檔名必須與 GitHub 完全一致：圖片是 gb.jpg，音樂是 music.mp3
 bg_url = "https://raw.githubusercontent.com/dgfsrg423/my-lotto-app/main/gb.jpg"
 music_url = "https://raw.githubusercontent.com/dgfsrg423/my-lotto-app/main/music.mp3"
 
@@ -39,32 +39,22 @@ st.markdown(f"""
         border: none;
     }}
     </style>
-
-    <audio id="bgm" loop>
-        <source src="{music_url}" type="audio/mp3">
-    </audio>
-    
-    <script>
-    // 監聽第一次點擊來啟動音樂
-    var playBgm = function() {{
-        var audio = document.getElementById('bgm');
-        audio.play();
-        document.removeEventListener('click', playBgm);
-    }};
-    document.addEventListener('click', playBgm);
-    </script>
 """, unsafe_allow_html=True)
 
-# 3. 側邊欄
+# 3. 側邊欄控制
 with st.sidebar:
     st.header("⚙️ 設定中心")
     count = st.slider("想要購買幾注？", 1, 10, 5)
     st.write("---")
-    st.info("🎵 進入網頁後，請【點擊畫面任何地方】即可啟動背景音樂！")
+    
+    # 這裡顯示播放器，方便你檢查檔案是否抓取成功
+    st.write("🎵 背景音樂控制")
+    st.audio(music_url, format="audio/mp3")
+    st.info("💡 如果播放器顯示載入中或無法播放，可能是檔案太大或網址失效。")
 
 # 4. 主畫面內容
 st.title("💰 威力彩幸運選號器")
-st.write("背景與音樂已同步，祝您好運連連！")
+st.write("聽著音樂，祝您好運連連！")
 
 if st.button("🚀 啟動幸運召喚！"):
     st.balloons()
@@ -77,5 +67,3 @@ if st.button("🚀 啟動幸運召喚！"):
             col1.info(f"**第一區：** {a1}")
             col2.error(f"**第二區：** [{a2}]")
             st.write("---")
-    st.success("選號完成！")
-
