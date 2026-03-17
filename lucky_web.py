@@ -1,28 +1,33 @@
 import streamlit as st
 import random
 
-# 1. 網頁基本設定 (分頁標題與圖示)
+# 1. 網頁基本設定
 st.set_page_config(page_title="威力彩神算手 💰", page_icon="💵", layout="centered")
 
 # 2. 核心美化：注入 CSS 魔法
+# 這裡使用了你的 GitHub 原始檔案連結，只要你有上傳 bg.jpg，它就會顯示
 st.markdown("""
     <style>
-    /* 設定背景圖片：使用錢堆背景 */
     .stApp {
-        background-image: url("https://images.unsplash.com/photo-1518458028434-518f2333d60d?q=80&w=2070");
+        background: url("https://raw.githubusercontent.com/dgfsrg423/my-lotto-app/main/bg.jpg");
         background-size: cover;
         background-attachment: fixed;
     }
     
-    /* 讓主畫面區塊變透明黑，讓文字浮現出來 */
+    /* 讓內容區塊有半透明黑底，文字才清晰 */
     .main {
-        background-color: rgba(0, 0, 0, 0.75);
+        background-color: rgba(0, 0, 0, 0.7);
         padding: 40px;
         border-radius: 25px;
         color: white;
     }
 
-    /* 美化按鈕：變大、變亮紅、滑鼠移上去會動 */
+    /* 側邊欄也要半透明才好看 */
+    [data-testid="stSidebar"] {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* 美化按鈕 */
     .stButton>button {
         width: 100%;
         border-radius: 50px;
@@ -40,28 +45,24 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. 網頁標題
+# 3. 網頁內容
 st.title("💰 威力彩幸運選號器")
-st.write("這不僅僅是程式，這是通往財富自由的門票（誤）！")
+st.write("這不僅僅是程式，這是通往財富自由的門票！")
 
-# 4. 側邊欄設定
 with st.sidebar:
     st.header("⚙️ 選項設定")
     count = st.slider("想要購買幾注？", 1, 10, 5)
-    st.divider()
+    st.write("---")
     st.write("💡 提示：按鈕點下去會噴氣球喔！")
 
-# 5. 選號邏輯與顯示
+# 4. 選號邏輯
 if st.button("🚀 啟動幸運召喚！"):
-    st.balloons() # 噴發慶祝氣球
+    st.balloons()
     
     for i in range(1, count + 1):
-        # 第一區 1~38 取 6 個
         a1 = sorted(random.sample(range(1, 39), 6))
-        # 第二區 1~8 取 1 個
         a2 = random.randint(1, 8)
         
-        # 使用漂亮的小卡片顯示號碼
         with st.container():
             st.markdown(f"### 第 {i} 注")
             col1, col2 = st.columns([3, 1])
@@ -69,4 +70,4 @@ if st.button("🚀 啟動幸運召喚！"):
             col2.error(f"**第二區：** [{a2}]")
             st.write("---")
 
-    st.success("選號完成！祝您順利中大獎！")
+    st.success("選號
