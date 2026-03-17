@@ -1,24 +1,24 @@
-
 import streamlit as st
 import random
 
 # 1. 網頁基本設定
 st.set_page_config(page_title="威力彩神算手 💰", page_icon="💵", layout="centered")
 
-# 2. 核心美化與自動播放音樂 (HTML/CSS 魔法)
+# 2. 核心美化：注入 CSS 魔法
+# 修正：檔名改為你 GitHub 上的 gb.jpg
+bg_url = "https://raw.githubusercontent.com/dgfsrg423/my-lotto-app/main/gb.jpg"
 music_url = "https://raw.githubusercontent.com/dgfsrg423/my-lotto-app/main/music.mp3"
 
 st.markdown(f"""
     <style>
-    /* 背景圖片與磨砂玻璃效果 */
     .stApp {{
-        background: url("https://raw.githubusercontent.com/dgfsrg423/my-lotto-app/main/bg.jpg");
+        background: url("{bg_url}");
         background-size: cover;
         background-attachment: fixed;
     }}
     
     .main {{
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(0, 0, 0, 0.75);
         padding: 40px;
         border-radius: 25px;
         color: white;
@@ -40,30 +40,31 @@ st.markdown(f"""
     }}
     </style>
 
-    <audio id="bgm" autoplay loop>
+    <audio id="bgm" loop>
         <source src="{music_url}" type="audio/mp3">
     </audio>
     
     <script>
-    // 嘗試在頁面點擊時播放音樂 (繞過瀏覽器限制)
-    document.addEventListener('click', function() {{
+    // 監聽第一次點擊來啟動音樂
+    var playBgm = function() {{
         var audio = document.getElementById('bgm');
         audio.play();
-    }}, {{ once: true }});
+        document.removeEventListener('click', playBgm);
+    }};
+    document.addEventListener('click', playBgm);
     </script>
 """, unsafe_allow_html=True)
 
-# 3. 側邊欄設定
+# 3. 側邊欄
 with st.sidebar:
-    st.header("⚙️ 設定與音樂")
+    st.header("⚙️ 設定中心")
     count = st.slider("想要購買幾注？", 1, 10, 5)
     st.write("---")
-    st.write("🎵 **音樂狀態**")
-    st.info("💡 提示：如果沒聲音，請點擊畫面任何地方即可啟動！")
+    st.info("🎵 進入網頁後，請【點擊畫面任何地方】即可啟動背景音樂！")
 
-# 4. 主網頁內容
+# 4. 主畫面內容
 st.title("💰 威力彩幸運選號器")
-st.write("聽著音樂，讓靈感帶領你走向頭獎...")
+st.write("背景與音樂已同步，祝您好運連連！")
 
 if st.button("🚀 啟動幸運召喚！"):
     st.balloons()
@@ -76,4 +77,5 @@ if st.button("🚀 啟動幸運召喚！"):
             col1.info(f"**第一區：** {a1}")
             col2.error(f"**第二區：** [{a2}]")
             st.write("---")
-    st.success("選號完成！祝您順利中大獎！")
+    st.success("選號完成！")
+
