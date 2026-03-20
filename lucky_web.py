@@ -13,11 +13,10 @@ def get_base64(bin_file):
 def inject_god_mode_ui(bg_file):
     try:
         bg_base64 = get_base64(bg_file)
-        st.markdown(f"""
+        st.markdown(f'''
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Syncopate:wght@400;700&display=swap');
 
-        /* 全域背景：動態背景 + 深色遮罩 */
         .stApp {{
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                         url("data:image/gif;base64,{bg_base64}");
@@ -28,7 +27,6 @@ def inject_god_mode_ui(bg_file):
             color: #00ff9f;
         }}
 
-        /* 標題故障藝術 (Glitch Animation) */
         @keyframes glitch {{
             0% {{ transform: translate(0); text-shadow: -2px 0 #ff003c, 2px 0 #00f0ff; }}
             20% {{ transform: translate(-3px, 3px); opacity: 0.8; }}
@@ -48,7 +46,6 @@ def inject_god_mode_ui(bg_file):
             padding-top: 5vh;
         }}
 
-        /* 輸入框美化 */
         .stTextInput>div>div>input {{
             background: rgba(0, 30, 30, 0.7) !important;
             border: 1px solid #00ff9f !important;
@@ -58,4 +55,37 @@ def inject_god_mode_ui(bg_file):
             padding: 10px;
         }}
 
-        /* 賽
+        .stButton>button {{
+            background: transparent;
+            color: #00ff9f;
+            border: 2px solid #00ff9f;
+            padding: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0% 30%);
+            transition: 0.4s;
+            width: 100%;
+        }}
+        .stButton>button:hover {{
+            background: #00ff9f;
+            color: black;
+            box-shadow: 0 0 30px #00ff9f;
+        }}
+
+        header, footer, [data-testid="stToolbar"] {{ visibility: hidden; }}
+        
+        [data-testid="stAudio"] {{
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            opacity: 0.2;
+            filter: invert(1) hue-rotate(90deg);
+            transition: 0.5s;
+            z-index: 9999;
+        }}
+        [data-testid="stAudio"]:hover {{ opacity: 1.0; }}
+        [data-testid="stMetricValue"] {{ color: #fcee0a !important; font-family: 'Syncopate'; }}
+        </style>
+        ''', unsafe_
